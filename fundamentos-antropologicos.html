@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fundamentos antropológicos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..800,0..100;1,9..144,300..600,0..100&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #EEE4CE;
+  --paper: #F6EFDD;
+  --ink: #2B1F17;
+  --ink-soft: #6B5D4E;
+  --rule: #C9BFA8;
+  --rule-soft: #DBD1B9;
+
+  /* Un color por dimensión (siguiendo el paletario del ecosistema PLAPA/CICAD) */
+  --persona:   #8B2E1F;
+  --alma:      #2E4E6F;
+  --cuerpo:    #C08A2C;
+  --individuo: #7B2E3F;
+  --sociedad:  #3E6647;
+
+  --active-color: var(--rule);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Fraunces', Georgia, serif;
+  font-variation-settings: "opsz" 14, "SOFT" 50, "wght" 400;
+  line-height: 1.55;
+  min-height: 100vh;
+  padding: clamp(1.25rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem) 3rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.wrapper {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ---------- Logos ---------- */
+.logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto clamp(1.5rem, 3vw, 2.5rem);
+  padding: 0 1rem clamp(1.25rem, 2.5vw, 1.75rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+.logos img {
+  height: clamp(38px, 5vw, 52px);
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+  opacity: 0.85;
+  transition: opacity 0.25s ease;
+  display: block;
+}
+
+.logos a { display: inline-block; line-height: 0; }
+.logos img:hover { opacity: 1; }
+
+/* ---------- Language toggle ---------- */
+.lang-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+  display: inline-flex;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 3px;
+  box-shadow: 0 2px 10px rgba(43, 31, 23, 0.08);
+}
+
+.lang-toggle button {
+  background: transparent;
+  border: none;
+  color: var(--ink-soft);
+  font-family: 'Fraunces', Georgia, serif;
+  font-variation-settings: "opsz" 14, "wght" 500;
+  font-size: 0.78rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.lang-toggle button:hover { color: var(--ink); }
+.lang-toggle button.active {
+  background: var(--ink);
+  color: var(--paper);
+}
+.lang-toggle button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* ---------- Header ---------- */
+header {
+  text-align: center;
+  margin-bottom: clamp(2rem, 4.5vw, 3.5rem);
+  padding-top: clamp(0.5rem, 3vw, 2rem);
+}
+
+.eyebrow {
+  font-variation-settings: "opsz" 14, "wght" 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 1.1rem;
+  opacity: 0.85;
+}
+
+h1 {
+  font-variation-settings: "opsz" 144, "SOFT" 30, "wght" 500;
+  font-size: clamp(2rem, 5.2vw, 3.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  max-width: 20ch;
+  margin: 0 auto 1.5rem;
+}
+
+h1 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 400;
+  color: var(--persona);
+}
+
+.subtitle {
+  font-variation-settings: "opsz" 24, "SOFT" 80, "wght" 400;
+  font-style: italic;
+  font-size: clamp(1rem, 1.55vw, 1.15rem);
+  color: var(--ink-soft);
+  max-width: 60ch;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ---------- Compass ---------- */
+.compass-stage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(0.5rem, 2vw, 1.5rem) 0;
+  margin-bottom: 1.5rem;
+}
+
+.compass {
+  width: min(540px, 90vw);
+  height: min(540px, 90vw);
+  filter: drop-shadow(0 10px 24px rgba(43, 31, 23, 0.12));
+  overflow: visible;
+}
+
+.ring-outer { fill: none; stroke: var(--rule); stroke-width: 1; }
+.ring-inner { fill: none; stroke: var(--rule-soft); stroke-width: 1; stroke-dasharray: 2 4; }
+.cross-line { stroke: var(--rule); stroke-width: 1; }
+.cardinal-tick { stroke: var(--ink); stroke-width: 1.5; }
+.diagonal-line { stroke: var(--rule-soft); stroke-width: 1; }
+
+.rhomb-major { fill: var(--paper); stroke: var(--rule); stroke-width: 1; }
+.rhomb-minor { fill: var(--ink); opacity: 0.85; }
+
+.node {
+  cursor: pointer;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+
+.node .node-bg {
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 1.2;
+  transition: fill 250ms ease, stroke 250ms ease;
+}
+
+.node .node-label {
+  font-family: 'Fraunces', Georgia, serif;
+  font-variation-settings: "opsz" 24, "wght" 500;
+  font-style: italic;
+  font-size: 16px;
+  fill: var(--ink);
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+  transition: fill 250ms ease;
+}
+
+.node.center .node-bg {
+  fill: var(--ink);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+.node.center .node-label {
+  fill: var(--paper);
+  font-size: 14px;
+  font-style: normal;
+  font-variation-settings: "opsz" 24, "wght" 500;
+  letter-spacing: 0.02em;
+}
+
+.compass.has-selection .node:not(.active) { opacity: 0.42; }
+
+.node:hover .node-bg,
+.node:focus-visible .node-bg {
+  fill: var(--active-color);
+  stroke: var(--active-color);
+}
+.node.center:hover .node-bg,
+.node.center:focus-visible .node-bg {
+  fill: var(--active-color);
+  stroke: var(--active-color);
+}
+.node:hover .node-label,
+.node:focus-visible .node-label {
+  fill: var(--paper);
+  font-style: normal;
+}
+
+.node.active .node-bg {
+  fill: var(--active-color);
+  stroke: var(--active-color);
+}
+.node.active .node-label {
+  fill: var(--paper);
+  font-style: normal;
+  font-variation-settings: "opsz" 24, "wght" 500;
+}
+
+.node:focus { outline: none; }
+.node:focus-visible .node-bg { stroke-width: 2.5; }
+
+.cardinal-letter {
+  font-family: 'Fraunces', Georgia, serif;
+  font-variation-settings: "opsz" 14, "wght" 500;
+  font-size: 14px;
+  fill: var(--ink-soft);
+  text-anchor: middle;
+  dominant-baseline: middle;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- Hint ---------- */
+.hint {
+  text-align: center;
+  color: var(--ink-soft);
+  font-style: italic;
+  font-size: 0.95rem;
+  margin: 0.5rem auto 2rem;
+  max-width: 40ch;
+  opacity: 1;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  font-variation-settings: "opsz" 14;
+}
+
+.hint.hidden {
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  height: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* ---------- Panel ---------- */
+.panel {
+  background: var(--paper);
+  border-top: 5px solid var(--active-color);
+  padding: 0 clamp(1.25rem, 4vw, 3.5rem);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.4s ease;
+  opacity: 0;
+  border-radius: 2px;
+  box-shadow: 0 2px 12px rgba(43, 31, 23, 0.06);
+}
+
+.panel.open {
+  max-height: 6000px;
+  padding-top: clamp(1.75rem, 4vw, 3rem);
+  padding-bottom: clamp(1.75rem, 4vw, 3rem);
+  opacity: 1;
+  transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s ease 0.15s,
+              border-color 0.4s ease;
+}
+
+.panel-head {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+
+.panel-mark {
+  font-variation-settings: "opsz" 144, "wght" 400;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  color: var(--active-color);
+  line-height: 1;
+  font-style: italic;
+  min-width: 2ch;
+  text-align: center;
+}
+
+.panel-title {
+  font-variation-settings: "opsz" 144, "wght" 500, "SOFT" 40;
+  font-size: clamp(1.75rem, 4vw, 2.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  flex: 1;
+}
+
+.back-button {
+  background: transparent;
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  font-family: 'Fraunces', Georgia, serif;
+  font-variation-settings: "opsz" 14, "wght" 500, "SOFT" 40;
+  font-size: 0.88rem;
+  padding: 0.5rem 0.95rem 0.55rem;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+  align-self: center;
+  letter-spacing: 0.01em;
+}
+
+.back-button:hover {
+  color: var(--ink);
+  border-color: var(--ink-soft);
+  background: rgba(43, 31, 23, 0.03);
+}
+.back-button:active { transform: translateX(-2px); }
+.back-button svg { transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+.back-button:hover svg { transform: translateX(-3px); }
+.back-button:focus-visible {
+  outline: 2px solid var(--active-color);
+  outline-offset: 2px;
+}
+
+.panel-body { transition: opacity 0.25s ease; }
+.panel-body.fading { opacity: 0; }
+
+.panel-lead {
+  font-style: italic;
+  font-variation-settings: "opsz" 24, "SOFT" 60, "wght" 400;
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  color: var(--active-color);
+  line-height: 1.5;
+  margin-bottom: 1.75rem;
+  max-width: 68ch;
+}
+
+.panel-body ul {
+  list-style: none;
+  padding: 0;
+}
+
+.panel-body li {
+  font-variation-settings: "opsz" 14, "wght" 400, "SOFT" 60;
+  font-size: 1.02rem;
+  line-height: 1.62;
+  color: var(--ink);
+  padding-left: 1.4rem;
+  position: relative;
+  margin-bottom: 0.85rem;
+  max-width: 68ch;
+  break-inside: avoid;
+}
+
+.panel-body li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.85em;
+  width: 0.7rem;
+  height: 1.5px;
+  background: var(--active-color);
+  opacity: 0.75;
+}
+
+.panel-body li em {
+  font-style: italic;
+  font-variation-settings: "opsz" 14, "wght" 500;
+}
+
+.panel-body li strong {
+  font-variation-settings: "opsz" 14, "wght" 600, "SOFT" 40;
+  color: var(--ink);
+}
+
+/* Two-column layout for wide screens */
+@media (min-width: 900px) {
+  .panel-body.columns ul {
+    column-count: 2;
+    column-gap: 3rem;
+  }
+}
+
+/* ---------- Footer ---------- */
+footer {
+  text-align: center;
+  padding: 3rem 1rem 0;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  font-style: italic;
+  font-variation-settings: "opsz" 14, "SOFT" 80;
+  opacity: 0.7;
+}
+
+@media (max-width: 640px) {
+  .node .node-label { font-size: 13px; letter-spacing: 0.02em; }
+  .node.center .node-label { font-size: 11px; }
+  .panel-head {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: baseline;
+  }
+  .panel-title { flex: 1 1 100%; order: 3; }
+  .panel-mark { order: 1; }
+  .back-button { order: 2; margin-left: auto; }
+  .panel-body.columns ul { column-count: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LANGUAGE TOGGLE — se posiciona fijo arriba a la derecha
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="lang-toggle" role="group" aria-label="Idioma / Language">
+  <button type="button" data-lang="es" class="active">ES</button>
+  <button type="button" data-lang="en">EN</button>
+</div>
+
+<div class="wrapper">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LOGOS — Reemplazá las imágenes por tus archivos.
+         · Cambiá  src="..."  por la ruta del logo (relativa al
+           archivo, ej. "logo-plapa.png", o URL completa).
+         · Actualizá  alt="..."  con el nombre de la institución.
+         · Para QUITAR un logo, borrá esa línea.
+         · Para hacer un logo CLICKEABLE, envolvelo así:
+               <a href="https://..." target="_blank" rel="noopener">
+                 <img src="..." alt="...">
+               </a>
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="logos">
+    <img src="Logo CICAD (Inglés).png" alt="CICAD">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <img src="PLAPA-LOGO.png" alt="PLAPA">
+      <img src="Logo-celam.png" alt="CELAM">
+    </div>
+  </div>
+
+  <header>
+    <div class="eyebrow" id="eyebrow"></div>
+    <h1 id="title"></h1>
+    <p class="subtitle" id="subtitle"></p>
+  </header>
+
+  <div class="compass-stage">
+    <svg class="compass" id="compass" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Rosa de los vientos antropológica">
+
+      <circle class="ring-outer" cx="250" cy="250" r="230"/>
+      <circle class="ring-inner" cx="250" cy="250" r="200"/>
+      <circle class="ring-inner" cx="250" cy="250" r="140"/>
+
+      <line class="diagonal-line" x1="88" y1="88" x2="412" y2="412"/>
+      <line class="diagonal-line" x1="412" y1="88" x2="88" y2="412"/>
+
+      <polygon class="rhomb-major" points="250,250 340,250 250,160"/>
+      <polygon class="rhomb-major" points="250,250 250,160 160,250"/>
+      <polygon class="rhomb-major" points="250,250 160,250 250,340"/>
+      <polygon class="rhomb-major" points="250,250 250,340 340,250"/>
+
+      <polygon class="rhomb-minor" points="250,250 250,180 275,250"/>
+      <polygon class="rhomb-minor" points="250,250 250,180 225,250"/>
+      <polygon class="rhomb-minor" points="250,250 250,320 275,250"/>
+      <polygon class="rhomb-minor" points="250,250 250,320 225,250"/>
+      <polygon class="rhomb-minor" points="250,250 320,250 250,275"/>
+      <polygon class="rhomb-minor" points="250,250 320,250 250,225"/>
+      <polygon class="rhomb-minor" points="250,250 180,250 250,275"/>
+      <polygon class="rhomb-minor" points="250,250 180,250 250,225"/>
+
+      <line class="cross-line" x1="250" y1="20" x2="250" y2="480"/>
+      <line class="cross-line" x1="20" y1="250" x2="480" y2="250"/>
+
+      <line class="cardinal-tick" x1="250" y1="20" x2="250" y2="38"/>
+      <line class="cardinal-tick" x1="250" y1="480" x2="250" y2="462"/>
+      <line class="cardinal-tick" x1="20" y1="250" x2="38" y2="250"/>
+      <line class="cardinal-tick" x1="480" y1="250" x2="462" y2="250"/>
+
+      <text class="cardinal-letter" id="card-N" x="250" y="8">N</text>
+      <text class="cardinal-letter" id="card-S" x="250" y="496">S</text>
+      <text class="cardinal-letter" id="card-E" x="492" y="250">E</text>
+      <text class="cardinal-letter" id="card-W" x="8" y="250">O</text>
+
+      <g class="node" data-node="alma" tabindex="0" role="button">
+        <circle class="node-bg" cx="250" cy="75" r="48"/>
+        <text class="node-label" id="lbl-alma" x="250" y="75">alma</text>
+      </g>
+
+      <g class="node" data-node="cuerpo" tabindex="0" role="button">
+        <circle class="node-bg" cx="250" cy="425" r="48"/>
+        <text class="node-label" id="lbl-cuerpo" x="250" y="425">cuerpo</text>
+      </g>
+
+      <g class="node" data-node="individuo" tabindex="0" role="button">
+        <circle class="node-bg" cx="75" cy="250" r="48"/>
+        <text class="node-label" id="lbl-individuo" x="75" y="250">individuo</text>
+      </g>
+
+      <g class="node" data-node="sociedad" tabindex="0" role="button">
+        <circle class="node-bg" cx="425" cy="250" r="48"/>
+        <text class="node-label" id="lbl-sociedad" x="425" y="250">sociedad</text>
+      </g>
+
+      <g class="node center" data-node="persona" tabindex="0" role="button">
+        <circle class="node-bg" cx="250" cy="250" r="64"/>
+        <text class="node-label" id="lbl-persona-1" x="250" y="245">persona</text>
+        <text class="node-label" id="lbl-persona-2" x="250" y="262">humana</text>
+      </g>
+
+    </svg>
+  </div>
+
+  <p class="hint" id="hint"></p>
+
+  <section class="panel" id="panel" aria-live="polite">
+    <div class="panel-head">
+      <div class="panel-mark" id="panel-mark"></div>
+      <h2 class="panel-title" id="panel-title"></h2>
+      <button class="back-button" id="back-button" type="button" aria-label="Volver a la rosa">
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+          <path d="M15 6l-6 6 6 6" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span id="back-label">Volver</span>
+      </button>
+    </div>
+    <div class="panel-body columns" id="panel-body"></div>
+  </section>
+
+  <footer id="footer"></footer>
+
+</div>
+
+<script>
+const translations = {
+  es: {
+    htmlLang: 'es',
+    docTitle: 'Fundamentos antropológicos',
+    eyebrow: 'Módulo 1 · Serie 1 · Fundamentos',
+    titleHTML: 'Fundamentos <em>antropológicos</em>',
+    subtitleHTML: 'Cinco puntos desde donde mirar a la persona, y desde donde comprender el problema de la adicción sin recortarla.',
+    hint: 'Elegí uno de los cinco puntos para desplegar su punteo.',
+    backLabel: 'Volver',
+    backAria: 'Volver a la rosa',
+    compassAria: 'Rosa de los vientos antropológica',
+    langLabel: 'Idioma / Language',
+    footer: 'Manual del participante · Serie 1 · Fundamentos · PLAPA · CELAM · CICAD/OEA',
+    cardinals: { N: 'N', S: 'S', E: 'E', W: 'O' },
+    nodeLabels: {
+      alma: 'alma',
+      cuerpo: 'cuerpo',
+      individuo: 'individuo',
+      sociedad: 'sociedad',
+      personaLine1: 'persona',
+      personaLine2: 'humana'
+    },
+    panels: {
+      persona: {
+        mark: '✚',
+        title: 'Persona humana',
+        color: 'var(--persona)',
+        lead: 'Imago Dei y dignidad inalienable. Es el núcleo del que se desprende todo lo demás, y el que se traduce socialmente en Derechos Humanos.',
+        items: [
+          '<strong>Imago Dei</strong>: el ser humano es creado a imagen y semejanza de Dios. Ahí radica una dignidad que ninguna conducta, enfermedad ni situación puede anular.',
+          'La dignidad es <strong>absoluta e inalienable</strong>: no depende de la salud, el consumo, la situación económica, migratoria o legal.',
+          'El que consume <strong>sigue siendo imagen de Dios</strong>. La adicción hiere al sujeto, no anula su dignidad ni define su identidad.',
+          'Los <strong>Derechos Humanos</strong> son la traducción secular y universal de esta dignidad. Su lenguaje permite el diálogo con Estados, organismos y culturas.',
+          'Reconocer al otro como <strong>hermano por quien murió Cristo</strong> (cf. GS 22) es punto de partida y criterio de toda intervención pastoral.',
+          '<strong>Nos obliga a estudiar</strong> los Derechos Humanos y su aplicación al problema de las drogas: sin ese marco, la caridad se vuelve asistencialismo y la denuncia pierde fuerza.'
+        ]
+      },
+      alma: {
+        mark: 'N',
+        title: 'Somos alma',
+        color: 'var(--alma)',
+        lead: 'La adicción tiene siempre un fondo espiritual: búsqueda de sentido, hambre de trascendencia.',
+        items: [
+          'El ser humano es <strong>capax Dei</strong>: naturalmente abierto a lo trascendente. Toda vida es pregunta y búsqueda de Dios, aunque sea ignorada o negada.',
+          'Buena parte del consumo intenta <strong>tapar un vacío de sentido</strong> que solo la relación con lo Otro puede llenar. La sustancia promete lo que solo el vínculo entrega.',
+          'La <strong>religiosidad es factor protector y de recuperación</strong>, reconocido por la evidencia científica y por la experiencia de AA desde su origen.',
+          'Sin dimensión espiritual el abordaje queda mutilado. La pastoral <strong>no compite con la clínica</strong>: la completa donde la clínica no llega.',
+          'Cuidado con el espiritualismo desencarnado: el alma no es un refugio para eludir cuerpo, historia y sociedad.',
+          '<strong>Nos obliga a estudiar</strong> la dimensión espiritual: qué es, cómo se ve afectada por la adicción y qué papel juega en la recuperación.'
+        ]
+      },
+      cuerpo: {
+        mark: 'S',
+        title: 'Somos cuerpo',
+        color: 'var(--cuerpo)',
+        lead: 'El cuerpo es nuestro estar en el mundo. Ignorarlo es traicionar la Encarnación.',
+        items: [
+          'La sustancia <strong>actúa sobre el cerebro</strong>: hay una neurobiología de la adicción que las prácticas pastorales no pueden desconocer.',
+          'El TUS es <strong>enfermedad crónica, recidivante y tratable</strong>. No es debilidad moral ni castigo.',
+          'Requiere <strong>abordaje basado en evidencia</strong> (UPC / UTC, OMS, CICAD). La fe no dispensa de la ciencia; la asume.',
+          'Cuidar el cuerpo del que sufre —sueño, alimentación, salud, medicación cuando corresponde— <strong>es también cuidado espiritual</strong>.',
+          'La dimensión corporal exige a la Iglesia dejarse iluminar por las ciencias de la salud, no reemplazarlas con voluntarismo.',
+          '<strong>Nos obliga a estudiar</strong> qué cosas ocurren en el cuerpo —las sustancias, el cerebro, la neurociencia del consumo— y qué relación tienen con la adicción.'
+        ]
+      },
+      individuo: {
+        mark: 'O',
+        title: 'Somos individuos',
+        color: 'var(--individuo)',
+        lead: 'Cada persona es un sujeto: una interioridad, una historia, un deseo. Ahí se juega buena parte del consumo y de la recuperación.',
+        items: [
+          'El individuo no se explica solo por la sustancia ni solo por el contexto: hay una <strong>subjetividad</strong> —una interioridad psíquica— que se juega en el consumo.',
+          'Esa subjetividad es lugar de <strong>libertad, deseo y decisión</strong>, pero también de vulnerabilidad, angustia, trauma y heridas no elaboradas.',
+          'El sujeto es <strong>activo y responsable</strong> de su proceso, no objeto pasivo de una intervención. Su autonomía se respeta incluso en la fragilidad.',
+          '<strong>Desestigmatizar</strong> es ver a este sujeto concreto —con su nombre y su historia— y no la etiqueta «adicto».',
+          'La recuperación no admite recetas idénticas: cada quien tiene su tiempo, su motivación, su punto de cambio.',
+          '<strong>Nos obliga a estudiar</strong> la dimensión psicológica: cómo funciona la mente del que consume, cómo se producen los cambios, qué estrategias y habilidades básicas de consejería necesitamos.'
+        ]
+      },
+      sociedad: {
+        mark: 'E',
+        title: 'Somos familia, comunidad, sociedad',
+        color: 'var(--sociedad)',
+        lead: 'La persona es en sus vínculos. Familia, trabajo y comunidad son el tejido donde el consumo se sostiene o se transforma.',
+        items: [
+          'La <strong>familia</strong> es el primer ámbito: sufre, contiene, previene o expulsa. Toda intervención pastoral la incluye o la traiciona.',
+          'El <strong>trabajo</strong> —la dignidad de un lugar en el mundo, de un hacer que ordena la vida— es un factor decisivo. Sin trabajo la recuperación se apaga.',
+          'La <strong>comunidad</strong> —la parroquia, el barrio, el movimiento, el club— es el tejido que sostiene o abandona. Sin comunidad, la respuesta clínica no alcanza.',
+          'La adicción afecta a la comunidad y la comunidad afecta a la adicción: es en el vínculo donde el problema se juega.',
+          'La <strong>Iglesia en salida</strong> se hace comunidad concreta: pastoral acogedora, no templo cerrado.',
+          '<strong>Nos obliga a preguntarnos</strong> cómo son nuestras comunidades y qué pueden hacer con la adicción: ¿acogen o expulsan? ¿acompañan o miran para otro lado? ¿generan lazos o son sólo un montón de individuos juntos?'
+        ]
+      }
+    }
+  },
+
+  en: {
+    htmlLang: 'en',
+    docTitle: 'Anthropological foundations',
+    eyebrow: 'Module 1 · Series 1 · Foundations',
+    titleHTML: 'Anthropological <em>foundations</em>',
+    subtitleHTML: 'Five points from which to look at the person, and from which to grasp the problem of addiction without cutting it short.',
+    hint: 'Click any of the five points to reveal its content.',
+    backLabel: 'Back',
+    backAria: 'Back to the compass',
+    compassAria: 'Anthropological compass rose',
+    langLabel: 'Language / Idioma',
+    footer: 'Participant Manual · Series 1 · Foundations · PLAPA · CELAM · CICAD/OAS',
+    cardinals: { N: 'N', S: 'S', E: 'E', W: 'W' },
+    nodeLabels: {
+      alma: 'soul',
+      cuerpo: 'body',
+      individuo: 'individual',
+      sociedad: 'society',
+      personaLine1: 'human',
+      personaLine2: 'person'
+    },
+    panels: {
+      persona: {
+        mark: '✚',
+        title: 'Human person',
+        color: 'var(--persona)',
+        lead: 'Imago Dei and inalienable dignity. The core from which everything else unfolds, and which finds its social translation in Human Rights.',
+        items: [
+          '<strong>Imago Dei</strong>: the human being is created in the image and likeness of God. That is the ground of a dignity no conduct, illness or situation can annul.',
+          'Dignity is <strong>absolute and inalienable</strong>: it does not depend on health, substance use, or economic, migratory or legal status.',
+          'The person who uses <strong>remains the image of God</strong>. Addiction wounds the subject; it does not annul their dignity or define their identity.',
+          '<strong>Human Rights</strong> are the secular and universal translation of this dignity. Their language makes dialogue with States, agencies and cultures possible.',
+          'Recognizing the other as a <strong>brother or sister &laquo;for whom Christ died&raquo;</strong> (cf. GS 22) is the starting point and criterion of every pastoral intervention.',
+          '<strong>It compels us to study</strong> Human Rights and their application to the drug problem: without that framework, charity slips into welfarism and denunciation loses force.'
+        ]
+      },
+      alma: {
+        mark: 'N',
+        title: 'We are soul',
+        color: 'var(--alma)',
+        lead: 'Addiction always has a spiritual undercurrent: a search for meaning, a hunger for transcendence.',
+        items: [
+          'The human being is <strong>capax Dei</strong>: naturally open to the transcendent. All life is a question and a search for God, even when ignored or denied.',
+          'Much substance use tries to <strong>cover a void of meaning</strong> that only relationship with the Other can fill. The substance promises what only the bond delivers.',
+          '<strong>Religiosity is a protective factor and a factor in recovery</strong>, acknowledged by scientific evidence and by the AA experience from its origin.',
+          'Without the spiritual dimension the approach is truncated. Pastoral care <strong>does not compete with the clinic</strong>: it completes it where the clinic cannot reach.',
+          'Beware of disembodied spiritualism: the soul is not a refuge for evading body, history and society.',
+          '<strong>It compels us to study</strong> the spiritual dimension: what it is, how it is affected by addiction, and what role it plays in recovery.'
+        ]
+      },
+      cuerpo: {
+        mark: 'S',
+        title: 'We are body',
+        color: 'var(--cuerpo)',
+        lead: 'The body is our being in the world. To ignore it is to betray the Incarnation.',
+        items: [
+          'The substance <strong>acts on the brain</strong>: there is a neurobiology of addiction that pastoral practice cannot ignore.',
+          'SUD is a <strong>chronic, recurring and treatable illness</strong>. It is neither moral weakness nor punishment.',
+          'It calls for <strong>evidence-based approaches</strong> (UPC / UTC, WHO, CICAD). Faith does not dispense us from science; it takes it up.',
+          'Caring for the body of the one who suffers —sleep, nutrition, health, medication when needed— <strong>is also spiritual care</strong>.',
+          'The bodily dimension requires the Church to let itself be enlightened by the health sciences, not to replace them with voluntarism.',
+          '<strong>It compels us to study</strong> what happens in the body —substances, brain, the neuroscience of use— and how it relates to addiction.'
+        ]
+      },
+      individuo: {
+        mark: 'W',
+        title: 'We are individuals',
+        color: 'var(--individuo)',
+        lead: 'Each person is a subject: an interiority, a history, a desire. Much of both substance use and recovery is played out there.',
+        items: [
+          'The individual is not explained by the substance alone, nor by context alone: there is a <strong>subjectivity</strong> —a psychic interiority— at stake in every use.',
+          'That subjectivity is the place of <strong>freedom, desire and decision</strong>, but also of vulnerability, anxiety, trauma and unresolved wounds.',
+          'The subject is <strong>active and responsible</strong> for their own process, not the passive object of an intervention. Their autonomy is respected even in fragility.',
+          'To <strong>destigmatize</strong> is to see this concrete subject —with their name and story— and not the label &laquo;addict&raquo;.',
+          'Recovery admits no identical recipes: each person has their own time, motivation and turning point.',
+          '<strong>It compels us to study</strong> the psychological dimension: how the mind of the person who uses works, how change happens, what strategies and basic counseling skills we need.'
+        ]
+      },
+      sociedad: {
+        mark: 'E',
+        title: 'We are family, community, society',
+        color: 'var(--sociedad)',
+        lead: 'The person exists in their bonds. Family, work and community are the fabric where substance use is sustained or transformed.',
+        items: [
+          'The <strong>family</strong> is the first setting: it suffers, contains, prevents or expels. Every pastoral intervention either includes it or betrays it.',
+          '<strong>Work</strong> —the dignity of a place in the world, of a doing that orders life— is a decisive factor. Without work, recovery dims.',
+          '<strong>Community</strong> —the parish, the neighborhood, the movement, the club— is the fabric that sustains or abandons. Without community, the clinical response cannot hold.',
+          'Addiction affects the community, and the community affects addiction: the bond is where the problem is played out.',
+          'A <strong>Church that goes forth</strong> becomes concrete community: welcoming pastoral care, not a closed temple.',
+          '<strong>It compels us to ask</strong> what our communities are like and what they can do about addiction: do they welcome or expel? do they accompany or look the other way? do they build bonds, or are they just a crowd of individuals side by side?'
+        ]
+      }
+    }
+  }
+};
+
+// ============ ESTADO ============
+let currentLang = 'es';
+let activeNode = null;
+
+// ============ ELEMENTOS ============
+const compass    = document.getElementById('compass');
+const panel      = document.getElementById('panel');
+const panelMark  = document.getElementById('panel-mark');
+const panelTitle = document.getElementById('panel-title');
+const panelBody  = document.getElementById('panel-body');
+const hint       = document.getElementById('hint');
+const backBtn    = document.getElementById('back-button');
+const backLabel  = document.getElementById('back-label');
+
+// ============ INTERACCIÓN ============
+function activateNode(key) {
+  const data = translations[currentLang].panels[key];
+  if (!data) return;
+
+  // Marca visual en la rosa
+  document.querySelectorAll('.node').forEach(n => n.classList.remove('active'));
+  document.querySelector('.node[data-node="' + key + '"]').classList.add('active');
+  compass.classList.add('has-selection');
+
+  // Color activo global
+  document.documentElement.style.setProperty('--active-color', data.color);
+
+  // Render del panel
+  const renderBody = () => {
+    let html = '<p class="panel-lead">' + data.lead + '</p>';
+    html += '<ul>';
+    data.items.forEach(item => { html += '<li>' + item + '</li>'; });
+    html += '</ul>';
+    panelBody.innerHTML = html;
+    panelMark.textContent = data.mark;
+    panelTitle.textContent = data.title;
+  };
+
+  if (panel.classList.contains('open') && activeNode !== key) {
+    // Cambio suave entre paneles
+    panelBody.classList.add('fading');
+    setTimeout(() => {
+      renderBody();
+      panelBody.classList.remove('fading');
+    }, 220);
+  } else {
+    renderBody();
+    panel.classList.add('open');
+    hint.classList.add('hidden');
+    // Scroll suave al panel
+    setTimeout(() => {
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+
+  activeNode = key;
+}
+
+function closePanel() {
+  panel.classList.remove('open');
+  document.querySelectorAll('.node').forEach(n => n.classList.remove('active'));
+  compass.classList.remove('has-selection');
+  document.documentElement.style.setProperty('--active-color', 'var(--rule)');
+  hint.classList.remove('hidden');
+  activeNode = null;
+  // Scroll de vuelta a la rosa
+  compass.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ============ APLICAR IDIOMA ============
+function applyLanguage(lang) {
+  const t = translations[lang];
+  if (!t) return;
+  currentLang = lang;
+
+  document.documentElement.lang = t.htmlLang;
+  document.title = t.docTitle;
+
+  document.getElementById('eyebrow').textContent = t.eyebrow;
+  document.getElementById('title').innerHTML = t.titleHTML;
+  document.getElementById('subtitle').innerHTML = t.subtitleHTML;
+  hint.textContent = t.hint;
+  backLabel.textContent = t.backLabel;
+  backBtn.setAttribute('aria-label', t.backAria);
+  compass.setAttribute('aria-label', t.compassAria);
+  document.querySelector('.lang-toggle').setAttribute('aria-label', t.langLabel);
+  document.getElementById('footer').textContent = t.footer;
+
+  document.getElementById('card-N').textContent = t.cardinals.N;
+  document.getElementById('card-S').textContent = t.cardinals.S;
+  document.getElementById('card-E').textContent = t.cardinals.E;
+  document.getElementById('card-W').textContent = t.cardinals.W;
+
+  document.getElementById('lbl-alma').textContent      = t.nodeLabels.alma;
+  document.getElementById('lbl-cuerpo').textContent    = t.nodeLabels.cuerpo;
+  document.getElementById('lbl-individuo').textContent = t.nodeLabels.individuo;
+  document.getElementById('lbl-sociedad').textContent  = t.nodeLabels.sociedad;
+  document.getElementById('lbl-persona-1').textContent = t.nodeLabels.personaLine1;
+  document.getElementById('lbl-persona-2').textContent = t.nodeLabels.personaLine2;
+
+  // Aria-labels de los nodos
+  Object.keys(t.nodeLabels).forEach(k => {
+    if (k === 'personaLine1' || k === 'personaLine2') return;
+    const node = document.querySelector('.node[data-node="' + k + '"]');
+    if (node) node.setAttribute('aria-label', t.nodeLabels[k]);
+  });
+  const personaNode = document.querySelector('.node[data-node="persona"]');
+  if (personaNode) personaNode.setAttribute('aria-label', t.nodeLabels.personaLine1 + ' ' + t.nodeLabels.personaLine2);
+
+  // Botones de idioma
+  document.querySelectorAll('.lang-toggle button').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+  });
+
+  // Re-render del panel si hay uno abierto
+  if (activeNode) {
+    const d = t.panels[activeNode];
+    panelMark.textContent = d.mark;
+    panelTitle.textContent = d.title;
+    let html = '<p class="panel-lead">' + d.lead + '</p><ul>';
+    d.items.forEach(item => { html += '<li>' + item + '</li>'; });
+    html += '</ul>';
+    panelBody.innerHTML = html;
+  }
+}
+
+// ============ EVENTS ============
+document.querySelectorAll('.node').forEach(node => {
+  const key = node.getAttribute('data-node');
+  node.addEventListener('click', () => activateNode(key));
+  node.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      activateNode(key);
+    }
+  });
+});
+
+backBtn.addEventListener('click', closePanel);
+
+document.querySelectorAll('.lang-toggle button').forEach(btn => {
+  btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang')));
+});
+
+// ============ INIT ============
+applyLanguage('es');
+</script>
+
+</body>
+</html>
